@@ -1,0 +1,19 @@
+{
+  "name": "@whaaaley/hyperapp-object-view",
+  "version": "0.0.0",
+  "description": "A Hyperapp component that renders JavaScript objects with syntax highlighting.",
+  "author": "Dustin Dowell <dustindowell2@gmail.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/whaaaley/hyperapp-object-view.git"
+  },
+  "bugs": {
+    "url": "https://github.com/whaaaley/hyperapp-object-view/issues"
+  },
+  "homepage": "https://github.com/whaaaley/hyperapp-object-view#readme",
+  "dependencies": {
+    "hyperapp": "^1.1.2"
+  }
+}
