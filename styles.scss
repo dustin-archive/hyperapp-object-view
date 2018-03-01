@@ -18,22 +18,13 @@ $base0e: #b48ead;
 $base0f: #ab7967;
 
 ._object-view {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  max-width: 320px;
-  max-height: calc(100vh - 48px);
   padding: 2ch;
-  border-radius: 4px;
   color: $base05;
   font-family: 'Roboto Mono', monospace;
   font-size: 12px;
   line-height: 1.25;
   white-space: nowrap;
   background: $base00;
-  box-shadow: $shadow-top-1;
-  overflow: scroll;
-  z-index: 1;
 
   .-row {
     padding: 0 0 0 2ch;
