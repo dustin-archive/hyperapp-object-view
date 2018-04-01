@@ -18,13 +18,16 @@ $base0e: #b48ead;
 $base0f: #ab7967;
 
 ._object-view {
+  width: 100%;
+  height: 100%;
   padding: 2ch;
   color: $base05;
   font-family: 'Roboto Mono', monospace;
   font-size: 12px;
-  line-height: 1.25;
+  line-height: 1.25em;
   white-space: nowrap;
   background: $base00;
+  overflow: scroll;
 
   .-row {
     padding: 0 0 0 2ch;
