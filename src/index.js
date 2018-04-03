@@ -1,8 +1,8 @@
 
-function embedCSS () {
-  var style = document.createElement('style')
-  document.head.appendChild(style.appendChild(document.createTextNode(OBJECT_VIEW_STYLES)))
-}
+var css = document.createTextNode(OBJECT_VIEW_STYLES)
+var style = document.createElement('style')
+
+document.head.appendChild(style.appendChild(css))
 
 function h (nodeName, attributes, children) {
   return {
@@ -56,7 +56,6 @@ function Obj (value) {
 }
 
 function ObjectView (data) {
-  embedCSS()
   return h('div', { class: '_object-view' }, Wrap(data, Obj(data.value)))
 }
 
