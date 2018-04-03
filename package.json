@@ -10,7 +10,7 @@
     "clean": "rm -rf dist && mkdir dist",
     "sass": "node-sass src/objectView.scss -o dist --source-map true --source-map-contents",
     "cleancss": "cleancss dist/objectView.css -o dist/objectView.css --source-map --source-map-inline-sources",
-    "rollup": "rollup src/index.js -o dist/objectView.js -f umd -n objectView -m",
+    "rollup": "rollup src/index.js -o dist/objectView.js -f umd -n objectView -m -c",
     "uglify": "uglifyjs dist/objectView.js -o dist/objectView.js -c -m --source-map content='dist/objectView.js.map',url='objectView.js.map'",
     "gzip": "gzip -k dist/objectView.css dist/objectView.js",
     "build": "npm run clean && npm run sass && npm run cleancss && npm run rollup && npm run uglify && npm run gzip"
@@ -27,6 +27,12 @@
     "clean-css-cli": "^4.1.11",
     "node-sass": "^4.8.3",
     "rollup": "^0.57.1",
+    "rollup-plugin-replace": "^2.0.0",
     "uglify-js": "^3.3.17"
+  },
+  "standard": {
+    "globals": [
+      "OBJECT_VIEW_STYLES"
+    ]
   }
 }
