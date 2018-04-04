@@ -4,16 +4,19 @@
   "description": "A Hyperapp component that renders JavaScript objects with syntax highlighting.",
   "author": "Dustin Dowell <dustindowell2@gmail.com>",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "src/index.js",
+  "main": "dist/objectView.js",
+  "module": "dist/objectViewESM.js",
   "scripts": {
-    "clean": "rm -rf dist && mkdir dist",
+    "clean": "rm -rf dist",
     "sass": "node-sass src/objectView.scss -o dist --source-map true --source-map-contents",
-    "cleancss": "cleancss dist/objectView.css -o dist/objectView.css --source-map --source-map-inline-sources",
-    "rollup": "rollup src/index.js -o dist/objectView.js -f umd -n objectView -m",
+    "cleancss": "cleancss -O2 dist/objectView.css -o dist/objectView.css --source-map --source-map-inline-sources",
+    "rollup-esm": "rollup src/index.js -o dist/objectViewESM.js -f es -m -c",
+    "rollup-browser": "rollup src/index.js -o dist/objectView.js -f umd -n objectView -m -c",
     "uglify": "uglifyjs dist/objectView.js -o dist/objectView.js -c -m --source-map content='dist/objectView.js.map',url='objectView.js.map'",
-    "gzip": "gzip -k dist/objectView.css dist/objectView.js",
-    "build": "npm run clean && npm run sass && npm run cleancss && npm run rollup && npm run uglify && npm run gzip"
+    "gzip": "gzip -k -n -9 dist/objectView.js",
+    "build-esm": "npm run sass && npm run cleancss && npm run rollup-esm",
+    "build-browser": "npm run sass && npm run cleancss && npm run rollup-browser && npm run uglify && npm run gzip",
+    "build": "npm run clean && npm run build-esm && npm run build-browser"
   },
   "repository": {
     "type": "git",
@@ -27,6 +30,12 @@
     "clean-css-cli": "^4.1.11",
     "node-sass": "^4.8.3",
     "rollup": "^0.57.1",
-    "uglify-js": "^3.3.17"
+    "rollup-plugin-replace": "^2.0.0",
+    "uglify-js": "^3.3.18"
+  },
+  "standard": {
+    "globals": [
+      "OBJECT_VIEW_STYLES"
+    ]
   }
 }

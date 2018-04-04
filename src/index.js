@@ -1,4 +1,10 @@
 
+var css = document.createTextNode(OBJECT_VIEW_STYLES)
+var style = document.createElement('style')
+
+style.appendChild(css)
+document.head.appendChild(style)
+
 function h (nodeName, attributes, children) {
   return {
     nodeName: nodeName,
