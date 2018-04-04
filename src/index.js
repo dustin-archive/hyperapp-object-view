@@ -2,7 +2,8 @@
 var css = document.createTextNode(OBJECT_VIEW_STYLES)
 var style = document.createElement('style')
 
-document.head.appendChild(style.appendChild(css))
+style.appendChild(css)
+document.head.appendChild(style)
 
 function h (nodeName, attributes, children) {
   return {
