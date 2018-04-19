@@ -47,7 +47,6 @@ function Collapse (path, expanded) {
 }
 
 function Arr (value, path, expanded) {
-  console.log('Array, path ' + path, value)
   if(expanded && !expanded(path)) {
     return h('span', { class: '-array', }, Expand(path, expanded))
   }
