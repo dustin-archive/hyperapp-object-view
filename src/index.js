@@ -19,39 +19,63 @@ function Pair (data, classList) {
   return Wrap(data, h('span', { class: classList }, data.value + ''))
 }
 
-function Switch (data) {
+function Switch (data, path, expanded) {
   var value = data.value
   switch (typeof value) {
     case 'boolean': return Pair(data, '-boolean')
     case 'function': return Wrap(data, h('span', { class: '-function' }))
     case 'number': return Pair(data, '-number')
-    case 'object': return Wrap(data, value ? Array.isArray(value) ? Arr(value) : Obj(value) : h('span', { class: '-null' }))
+    case 'object': return Wrap(
+      data, 
+      value 
+        ? Array.isArray(value) 
+          ? Arr(value, path, expanded) 
+          : Obj(value, path, expanded) 
+        : h('span', { class: '-null' }))
     case 'string': return Pair(data, '-string')
     case 'undefined': return Wrap(data, h('span', { class: '-undefined' }))
   }
   return Pair(data)
 }
 
-function Arr (value) {
-  var result = []
-  for (var i = 0; i < value.length; i++) {
-    result[i] = Switch({ value: value[i] })
-  }
-  return h('span', { class: '-array' }, result)
+function Expand (path, expanded) {
+  return expanded && h('span', { class: '-expand', onclick: function() {expanded(path, true)} })
 }
 
-function Obj (value) {
-  var result = []
+function Collapse (path, expanded) {
+  return expanded && h('span', { class: '-collapse', onclick: function() {expanded(path, false)} })
+}
+
+function Arr (value, path, expanded) {
+  console.log('Array, path ' + path, value)
+  if(expanded && !expanded(path)) {
+    return h('span', { class: '-array', }, Expand(path, expanded))
+  }
+  var result = [Collapse(path, expanded)]
+  for (var i = 0; i < value.length; i++) {
+    result.push(Switch({ value: value[i] }, path + '.' + i, expanded))
+  }
+  return h('span', { class: '-array' },result)
+}
+
+function Obj (value, path, expanded) {
+  if(expanded && !expanded(path)) {
+    return h('span', { class: '-object', }, Expand(path, expanded))
+  }
   var keys = Object.keys(value)
+  var result = [Collapse(path, expanded)]
   for (var i = 0; i < keys.length; i++) {
     var key = keys[i]
-    result[i] = Switch({ key: key, value: value[key] })
+    result.push(Switch({ key: key, value: value[key] }, path + '.' + key, expanded))
   }
   return h('span', { class: '-object' }, result)
 }
 
 function ObjectView (data) {
-  return h('div', { class: '_object-view' }, Wrap(data, Obj(data.value)))
+  data.path = data.path || ''
+  return h('div', { class: '_object-view' }, 
+    Wrap(data, Obj(data.value, 'root', data.expanded))
+  )
 }
 
 export default ObjectView

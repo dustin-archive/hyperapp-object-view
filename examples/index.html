@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8' />
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Simple example</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+
+  <link rel='stylesheet' type='text/css' media='screen' href='../dist/objectView.css' />
+  <script src='../dist/objectView.js'></script>
+
+  <script src='https://unpkg.com/hyperapp@1.2.5/dist/hyperapp.js'></script>
+</head>
+
+<body>
+  <div id='app'></div>
+
+  <script>
+
+    const value = {
+      booleanVal: true,
+      numberVal: 42,
+      arrayVal: [
+        1,
+        true,
+        ['other', 'array', true],
+        { stringVal: 'string value' }
+      ],
+      objectVal: {
+        undefinedVal: undefined,
+        stringVal: "hello",
+        nullVal: null
+      }
+    }
+
+    const state = {
+      // contains the expanded paths
+    }
+
+    const actions = {
+      expanded({ path, expanded }) {
+        const result = { expandAll: false }
+        result[path] = expanded
+        return result
+      }
+    }
+
+    const h = hyperapp.h
+    function view(state, actions) {
+      function expanded(path, expanded) {
+        if(typeof expanded === 'undefined') {
+          return state[path]
+        }
+        actions.expanded({ path, expanded })
+      }
+
+      return objectView({ value, expanded })
+    }
+
+    hyperapp.app(state, actions, view, document.getElementById('app'))
+  </script>
+</body>
+
+</html>
