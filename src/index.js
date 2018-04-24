@@ -25,33 +25,67 @@ function Switch (data) {
     case 'boolean': return Pair(data, '-boolean')
     case 'function': return Wrap(data, h('span', { class: '-function' }))
     case 'number': return Pair(data, '-number')
-    case 'object': return Wrap(data, value ? Array.isArray(value) ? Arr(value) : Obj(value) : h('span', { class: '-null' }))
+    case 'object': return Wrap(
+      data, 
+      value 
+        ? (Array.isArray(value) ? Arr(data) : Obj(data))
+        : h('span', { class: '-null' }))
     case 'string': return Pair(data, '-string')
     case 'undefined': return Wrap(data, h('span', { class: '-undefined' }))
   }
   return Pair(data)
 }
 
-function Arr (value) {
-  var result = []
-  for (var i = 0; i < value.length; i++) {
-    result[i] = Switch({ value: value[i] })
+function Expand (path, expanded) {
+  return expanded && h('span', { class: '-expand', onclick: function() {expanded(path, true)} })
+}
+
+function Collapse (path, expanded) {
+  return expanded && h('span', { class: '-collapse', onclick: function() {expanded(path, false)} })
+}
+
+function Arr (data) {
+  var expanded = data.expanded
+  var path = data.path
+  if(expanded && !expanded(path)) {
+    return h('span', { class: '-array', }, Expand(path, expanded))
+  }
+  var result = [Collapse(path, expanded)]
+  for (var i = 0; i < data.value.length; i++) {
+    result.push(Switch({ 
+      value: data.value[i] , 
+      path: path + '.' + i, 
+      expanded: expanded 
+    }))
   }
   return h('span', { class: '-array' }, result)
 }
 
-function Obj (value) {
-  var result = []
-  var keys = Object.keys(value)
+function Obj (data) {
+  var expanded = data.expanded
+  var path = data.path
+  if(expanded && !expanded(path)) {
+    return h('span', { class: '-object', }, Expand(path, expanded))
+  }
+  var keys = Object.keys(data.value)
+  var result = [Collapse(path, expanded)]
   for (var i = 0; i < keys.length; i++) {
     var key = keys[i]
-    result[i] = Switch({ key: key, value: value[key] })
+    result.push(Switch({ 
+      key: key, 
+      value: data.value[key], 
+      path: path + '.' + key, 
+      expanded: expanded 
+    }))
   }
   return h('span', { class: '-object' }, result)
 }
 
 function ObjectView (data) {
-  return h('div', { class: '_object-view' }, Wrap(data, Obj(data.value)))
+  data.path = data.path || 'root'
+  return h('div', { class: '_object-view' }, 
+    Wrap(data, Switch(data))
+  )
 }
 
 export default ObjectView
