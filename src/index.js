@@ -18,8 +18,8 @@ function Expand (data, child) {
   return function (state, actions) {
     return h('div', {
       class: state.ObjectView[data.path]
-        ? '-row -expand -collapse'
-        : '-row -expand',
+        ? '-row -expand'
+        : '-row -expand -collapse',
       onclick: function (e) {
         e.stopPropagation()
         actions.ObjectView.toggle(data.path)
