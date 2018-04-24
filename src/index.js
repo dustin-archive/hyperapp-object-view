@@ -7,85 +7,106 @@ function h (nodeName, attributes, children) {
   }
 }
 
-function Wrap (data, children) {
-  var key = data.key
+function Row (data, child) {
   return h('div', { class: '-row' }, [
-    key && h('span', { class: '-key' }, key),
-    children
+    data.key && h('span', { class: '-key' }, data.key),
+    child
   ])
 }
 
+function Expand (data, child) {
+  return function (state, actions) {
+    return h('div', {
+      class: state.ObjectView[data.path]
+        ? '-row -expand'
+        : '-row -expand -collapse',
+      onclick: function (e) {
+        e.stopPropagation()
+        actions.ObjectView.toggle(data.path)
+      }
+    }, [
+      data.key && h('span', { class: '-key' }, data.key),
+      child
+    ])
+  }
+}
+
 function Pair (data, classList) {
-  return Wrap(data, h('span', { class: classList }, data.value + ''))
+  return Row(data, h('span', { class: classList }, data.value + ''))
+}
+
+function Nest (data) {
+  return data.value
+    ? Array.isArray(data.value)
+      ? Expand(data, Arr(data))
+      : Expand(data, Obj(data))
+    : h('span', { class: '-null' })
 }
 
 function Switch (data) {
-  var value = data.value
-  switch (typeof value) {
-    case 'boolean': return Pair(data, '-boolean')
-    case 'function': return Wrap(data, h('span', { class: '-function' }))
-    case 'number': return Pair(data, '-number')
-    case 'object': return Wrap(
-      data, 
-      value 
-        ? (Array.isArray(value) ? Arr(data) : Obj(data))
-        : h('span', { class: '-null' }))
-    case 'string': return Pair(data, '-string')
-    case 'undefined': return Wrap(data, h('span', { class: '-undefined' }))
+  switch (typeof data.value) {
+    case 'boolean':
+      return Pair(data, '-boolean')
+    case 'function':
+      return Row(data, h('span', { class: '-function' }))
+    case 'number':
+      return Pair(data, '-number')
+    case 'object':
+      return Nest(data)
+    case 'string':
+      return Pair(data, '-string')
+    case 'undefined':
+      return Row(data, h('span', { class: '-undefined' }))
   }
   return Pair(data)
 }
 
-function Expand (path, expanded) {
-  return expanded && h('span', { class: '-expand', onclick: function() {expanded(path, true)} })
-}
-
-function Collapse (path, expanded) {
-  return expanded && h('span', { class: '-collapse', onclick: function() {expanded(path, false)} })
-}
-
 function Arr (data) {
-  var expanded = data.expanded
-  var path = data.path
-  if(expanded && !expanded(path)) {
-    return h('span', { class: '-array', }, Expand(path, expanded))
-  }
-  var result = [Collapse(path, expanded)]
+  var result = []
   for (var i = 0; i < data.value.length; i++) {
-    result.push(Switch({ 
-      value: data.value[i] , 
-      path: path + '.' + i, 
-      expanded: expanded 
-    }))
+    result[i] = Switch({
+      path: data.path + '.' + i,
+      value: data.value[i]
+    })
   }
   return h('span', { class: '-array' }, result)
 }
 
 function Obj (data) {
-  var expanded = data.expanded
-  var path = data.path
-  if(expanded && !expanded(path)) {
-    return h('span', { class: '-object', }, Expand(path, expanded))
-  }
+  var result = []
   var keys = Object.keys(data.value)
-  var result = [Collapse(path, expanded)]
   for (var i = 0; i < keys.length; i++) {
     var key = keys[i]
-    result.push(Switch({ 
-      key: key, 
-      value: data.value[key], 
-      path: path + '.' + key, 
-      expanded: expanded 
-    }))
+    result[i] = Switch({
+      key: key,
+      path: data.path + '.' + key,
+      value: data.value[key]
+    })
   }
   return h('span', { class: '-object' }, result)
 }
 
-function ObjectView (data) {
-  data.path = data.path || 'root'
-  return h('div', { class: '_object-view' }, 
-    Wrap(data, Switch(data))
-  )
+function view (d) {
+  return function (state) {
+    return h('div', {
+      class: '_object-view'
+    }, Row({ key: 'state' }, Obj({ path: 'state', value: state })))
+  }
+}
+
+var actions = {
+  toggle: function (data) {
+    return function (state) {
+      var partial = {}
+      partial[data] = !state[data]
+      return partial
+    }
+  }
+}
+
+var ObjectView = {
+  view: view,
+  actions: actions
 }
 
 export default ObjectView
