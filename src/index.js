@@ -97,9 +97,9 @@ function view (d) {
 var actions = {
   toggle: function (data) {
     return function (state) {
-      var partial = {}
-      partial[data] = !state[data]
-      return partial
+      var result = {}
+      result[data] = !state[data]
+      return result
     }
   }
 }
