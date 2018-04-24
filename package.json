@@ -27,6 +27,6 @@
     "clean-css-cli": "^4.1.11",
     "node-sass": "^4.8.3",
     "rollup": "^0.58.1",
-    "uglify-js": "^3.3.21"
+    "uglify-js": "^3.3.22"
   }
 }

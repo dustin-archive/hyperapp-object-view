@@ -22,12 +22,11 @@ $base0f: #ab7967;
   height: 100%;
   padding: 2ch;
   color: $base05;
-  font-family: 'Roboto Mono', monospace;
-  font-size: 12px;
-  line-height: 1.25em;
+  font: 12px/1.25em monospace;
   white-space: nowrap;
   background: $base00;
   overflow: scroll;
+  user-select: none;
 
   .-row {
     padding: 0 0 0 2ch;
@@ -39,19 +38,38 @@ $base0f: #ab7967;
     }
   }
 
+  .-collapse {
+    .-array {
+      &::after {
+        content: ' ... ]';
+      }
+
+      .-row {
+        display: none;
+      }
+    }
+
+    .-object {
+      &::after {
+        content: ' ... }';
+      }
+
+      .-row {
+        display: none;
+      }
+    }
+  }
+
+  .-expand {
+    cursor: pointer;
+  }
+
   .-key {
     color: $base08;
 
     &::after {
       color: $base05;
       content: ': ';
-    }
-  }
-
-  .-null {
-    &::before {
-      color: $base09;
-      content: 'null';
     }
   }
 
@@ -72,6 +90,13 @@ $base0f: #ab7967;
   .-function {
     &::before {
       content: 'ƒ';
+    }
+  }
+
+  .-null {
+    &::before {
+      color: $base09;
+      content: 'null';
     }
   }
 
