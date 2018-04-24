@@ -40,7 +40,7 @@ function Nest (data) {
     ? Array.isArray(data.value)
       ? Expand(data, Arr(data))
       : Expand(data, Obj(data))
-    : h('span', { class: '-null' })
+    : Row(data, h('span', { class: '-null' }))
 }
 
 function Switch (data) {
