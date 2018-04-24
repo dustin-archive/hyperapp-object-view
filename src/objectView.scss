@@ -132,4 +132,16 @@ $base0f: #ab7967;
       content: 'undefined';
     }
   }
+
+  .-expand {
+    &::before {
+      content: "+"
+    }
+  }
+
+  .-collapse {
+    &::before {
+      content: "-"
+    }
+  }
 }
