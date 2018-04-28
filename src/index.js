@@ -31,34 +31,26 @@ function Expand (data, child) {
   }
 }
 
-function Pair (data, classList) {
-  return Row(data, h('span', { class: classList }, data.value + ''))
-}
-
-function Nest (data) {
-  return data.value
-    ? Array.isArray(data.value)
-      ? Expand(data, Arr(data))
-      : Expand(data, Obj(data))
-    : Row(data, h('span', { class: '-null' }))
-}
-
 function Switch (data) {
   switch (typeof data.value) {
     case 'boolean':
-      return Pair(data, '-boolean')
+      return Row(data, h('span', { class: '-boolean' }, data.value + ''))
     case 'function':
       return Row(data, h('span', { class: '-function' }))
     case 'number':
-      return Pair(data, '-number')
+      return Row(data, h('span', { class: '-number' }, data.value))
     case 'object':
-      return Nest(data)
+      return data.value
+        ? Array.isArray(data.value)
+          ? Expand(data, Arr(data))
+          : Expand(data, Obj(data))
+        : Row(data, h('span', { class: '-null' }))
     case 'string':
-      return Pair(data, '-string')
+      return Row(data, h('span', { class: '-string' }, data.value))
     case 'undefined':
       return Row(data, h('span', { class: '-undefined' }))
   }
-  return Pair(data)
+  return Row(data, h('span', null, data.value))
 }
 
 function Arr (data) {
