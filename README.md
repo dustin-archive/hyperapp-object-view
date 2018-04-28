@@ -14,6 +14,7 @@ $ npm i @whaaaley/hyperapp-object-view
 ## Setup
 
 ```js
+import { h, app } from 'hyperapp'
 import ObjectView from '@whaaaley/hyperapp-object-view'
 
 const state = {
