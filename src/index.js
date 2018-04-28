@@ -78,7 +78,7 @@ function Obj (data) {
   return h('span', { class: '-object' }, result)
 }
 
-function view (d) {
+function view () {
   return function (state) {
     return h('div', {
       class: '_object-view'
