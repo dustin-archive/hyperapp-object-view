@@ -1,6 +1,6 @@
 {
   "name": "@whaaaley/hyperapp-object-view",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A Hyperapp component that renders JavaScript objects with syntax highlighting.",
   "author": "Dustin Dowell <dustindowell2@gmail.com>",
   "license": "MIT",
