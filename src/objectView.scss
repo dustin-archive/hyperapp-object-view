@@ -38,7 +38,7 @@ $base0f: #ab7967;
     }
   }
 
-  .-collapse {
+  .-close {
     .-array {
       &::after {
         content: ' ... ]';
@@ -60,7 +60,7 @@ $base0f: #ab7967;
     }
   }
 
-  .-expand {
+  .-tree {
     cursor: pointer;
   }
 
