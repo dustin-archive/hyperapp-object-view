@@ -17,9 +17,7 @@ function Row (data, child) {
 function Tree (data) {
   return function (state, actions) {
     return h('div', {
-      class: state.ObjectView[data.path]
-        ? '-row -tree'
-        : '-row -tree -close',
+      class: state.ObjectView[data.path] ? '-row -tree' : '-row -tree -close',
       onclick: function (e) {
         e.stopPropagation()
         actions.ObjectView.toggle(data.path)
