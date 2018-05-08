@@ -30,22 +30,29 @@ function Tree (data) {
 }
 
 function Switch (data) {
-  switch (typeof data.value) {
-    case 'boolean':
-      return Row(data, h('span', { class: '-boolean' }, data.value + ''))
-    case 'function':
-      return Row(data, h('span', { class: '-function' }))
-    case 'number':
-      return Row(data, h('span', { class: '-number' }, data.value))
-    case 'object':
-      return data.value ? Tree(data) : Row(data, h('span', { class: '-null' }))
-    case 'string':
-      return Row(data, h('span', { class: '-string' }, data.value))
-    case 'undefined':
-      return Row(data, h('span', { class: '-undefined' }))
-  }
-  return Row(data, h('span', null, data.value))
+  const type = typeof data.value
+  return type === 'object'
+    ? type ? Tree(data) : Row(data, h('span', { class: '-null' }))
+    : Row(data, h('span', { class: '-' + type }, data.value.toString()))
 }
+
+// function Switch (data) {
+//   switch (typeof data.value) {
+//     case 'boolean':
+//       return Row(data, h('span', { class: '-boolean' }, data.value + ''))
+//     case 'function':
+//       return Row(data, h('span', { class: '-function' }))
+//     case 'number':
+//       return Row(data, h('span', { class: '-number' }, data.value))
+//     case 'object':
+//       return data.value ? Tree(data) : Row(data, h('span', { class: '-null' }))
+//     case 'string':
+//       return Row(data, h('span', { class: '-string' }, data.value))
+//     case 'undefined':
+//       return Row(data, h('span', { class: '-undefined' }))
+//   }
+//   return Row(data, h('span', null, data.value))
+// }
 
 function Arr (data) {
   var result = []
