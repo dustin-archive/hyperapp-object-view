@@ -29,11 +29,11 @@ function Tree (data) {
   }
 }
 
-function Switch (data) {
-  const type = typeof data.value
+function Type (data) {
+  var type = typeof data.value
   return type === 'object'
     ? type ? Tree(data) : Row(data, h('span', { class: '-null' }))
-    : Row(data, h('span', { class: '-' + type }, data.value.toString()))
+    : Row(data, h('span', { class: '-' + type }, data.value + ''))
 }
 
 // function Switch (data) {
@@ -57,7 +57,7 @@ function Switch (data) {
 function Arr (data) {
   var result = []
   for (var i = 0; i < data.value.length; i++) {
-    result[i] = Switch({
+    result[i] = Type({
       path: data.path + '.' + i,
       value: data.value[i]
     })
@@ -70,7 +70,7 @@ function Obj (data) {
   var keys = Object.keys(data.value)
   for (var i = 0; i < keys.length; i++) {
     var key = keys[i]
-    result[i] = Switch({
+    result[i] = Type({
       key: key,
       path: data.path + '.' + key,
       value: data.value[key]
