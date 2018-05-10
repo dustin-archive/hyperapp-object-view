@@ -54,8 +54,8 @@ function Obj (path, value) {
   return h('span', { class: '-object' }, result)
 }
 
-function view (data) {
-  return h('div', { class: '_object-view' }, Row('state', Obj(data)))
+function view (path, value) {
+  return h('div', { class: '_object-view' }, Row('state', Obj(path, value)))
 }
 
 var actions = {
