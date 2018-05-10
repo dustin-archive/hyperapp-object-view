@@ -7,84 +7,55 @@ function h (nodeName, attributes, children) {
   }
 }
 
-function Row (data, child) {
+function Row (key, child) {
   return h('div', { class: '-row' }, [
-    data.key && h('span', { class: '-key' }, data.key),
+    key && h('span', { class: '-key' }, key),
     child
   ])
 }
 
-function Tree (data) {
+function Tree (key, path, value) {
   return function (state, actions) {
     return h('div', {
-      class: state.ObjectView[data.path] ? '-row -tree' : '-row -tree -close',
+      class: state.ObjectView[path] ? '-row -tree' : '-row -tree -close',
       onclick: function (e) {
         e.stopPropagation()
-        actions.ObjectView.toggle(data.path)
+        actions.ObjectView.toggle(path)
       }
     }, [
-      data.key && h('span', { class: '-key' }, data.key),
-      Array.isArray(data.value) ? Arr(data) : Obj(data)
+      key && h('span', { class: '-key' }, key),
+      Array.isArray(value) ? Arr(path, value) : Obj(path, value)
     ])
   }
 }
 
-function Type (data) {
-  var type = typeof data.value
+function Type (key, path, value) {
+  var type = typeof value
   return type === 'object'
-    ? type ? Tree(data) : Row(data, h('span', { class: '-null' }))
-    : Row(data, h('span', { class: '-' + type }, data.value + ''))
+    ? type ? Tree(key, path, value) : Row(key, h('span', { class: '-null' }))
+    : Row(key, h('span', { class: '-' + type }, value + ''))
 }
 
-// function Switch (data) {
-//   switch (typeof data.value) {
-//     case 'boolean':
-//       return Row(data, h('span', { class: '-boolean' }, data.value + ''))
-//     case 'function':
-//       return Row(data, h('span', { class: '-function' }))
-//     case 'number':
-//       return Row(data, h('span', { class: '-number' }, data.value))
-//     case 'object':
-//       return data.value ? Tree(data) : Row(data, h('span', { class: '-null' }))
-//     case 'string':
-//       return Row(data, h('span', { class: '-string' }, data.value))
-//     case 'undefined':
-//       return Row(data, h('span', { class: '-undefined' }))
-//   }
-//   return Row(data, h('span', null, data.value))
-// }
-
-function Arr (data) {
+function Arr (path, value) {
   var result = []
-  for (var i = 0; i < data.value.length; i++) {
-    result[i] = Type({
-      path: data.path + '.' + i,
-      value: data.value[i]
-    })
+  for (var i = 0; i < value.length; i++) {
+    result[i] = Type(path + '.' + i, value[i])
   }
   return h('span', { class: '-array' }, result)
 }
 
-function Obj (data) {
+function Obj (path, value) {
   var result = []
-  var keys = Object.keys(data.value)
+  var keys = Object.keys(value)
   for (var i = 0; i < keys.length; i++) {
     var key = keys[i]
-    result[i] = Type({
-      key: key,
-      path: data.path + '.' + key,
-      value: data.value[key]
-    })
+    result[i] = Type(key, path + '.' + key, value[key])
   }
   return h('span', { class: '-object' }, result)
 }
 
-function view () {
-  return function (state) {
-    return h('div', {
-      class: '_object-view'
-    }, Row({ key: 'state' }, Obj({ path: 'state', value: state })))
-  }
+function view (data) {
+  return h('div', { class: '_object-view' }, Row('state', Obj(data)))
 }
 
 var actions = {
