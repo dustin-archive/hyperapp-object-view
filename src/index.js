@@ -29,7 +29,7 @@ function Tree (key, path, child) {
   }
 }
 
-function Type (key, path, value) {
+function Type (path, value, key) {
   switch (typeof value) {
     case 'boolean':
       return Row(key, h('span', { class: '-boolean' }, [value + '']))
@@ -60,7 +60,7 @@ function Both (path, value) {
   var keys = Object.keys(value)
   for (; i < keys.length; i++) {
     var key = keys[i]
-    result[i] = Type(key, path + '.' + key, value[key])
+    result[i] = Type(path + '.' + key, value[key], key)
   }
   return h('span', { class: '-object' }, result)
 }
