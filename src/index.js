@@ -45,10 +45,23 @@ function Tree (key, path, value) {
 }
 
 function Type (key, path, value) {
-  var type = typeof value
-  return type === 'object'
-    ? type ? Tree(key, path, value) : Row(key, h('span', { class: '-null' }))
-    : Row(key, h('span', { class: '-' + type }, indent(value + '')))
+  switch (typeof value) {
+    case 'boolean':
+      return Row(key, h('span', { class: '-boolean' }, value + ''))
+    case 'function':
+      return Row(key, h('span', { class: '-function' }, indent(value + '')))
+    case 'number':
+      return Row(key, h('span', { class: '-number' }, value))
+    case 'object':
+      return value
+        ? Tree(key, path, value)
+        : Row(key, h('span', { class: '-null' }))
+    case 'string':
+      return Row(key, h('span', { class: '-string' }, value))
+    case 'undefined':
+      return Row(key, h('span', { class: '-undefined' }))
+  }
+  return Row(key, h('span', null, value))
 }
 
 function Arr (path, value) {
