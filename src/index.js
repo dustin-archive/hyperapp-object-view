@@ -7,15 +7,11 @@ function h (nodeName, attributes, children) {
   }
 }
 
-function Pair (key, child) {
-  return [
+function Row (key, child) {
+  return h('div', { class: '-row' }, [
     key && h('span', { class: '-key' }, [key]),
     child
-  ]
-}
-
-function Row (key, child) {
-  return h('div', { class: '-row' }, Pair(key, child))
+  ])
 }
 
 function Tree (key, child, path) {
@@ -26,7 +22,10 @@ function Tree (key, child, path) {
         e.stopPropagation()
         actions.ObjectView.toggle(path)
       }
-    }, Pair(key, child))
+    }, [
+      key && h('span', { class: '-key' }, [key]),
+      child
+    ])
   }
 }
 
