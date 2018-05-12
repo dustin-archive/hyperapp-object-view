@@ -7,6 +7,21 @@ function h (nodeName, attributes, children) {
   }
 }
 
+function indent (str) {
+  var lines = str.split('\n')
+  var least = Infinity
+  var result = lines[0].trim()
+  for (var i = 1; i < lines.length; i++) {
+    var space = lines[i].match(/^\s+/)
+    var length = space ? space[0].length : Infinity
+    length < least && (least = length)
+  }
+  for (i = 1; i < lines.length; i++) {
+    result += '\n' + lines[i].slice(least)
+  }
+  return result
+}
+
 function Row (key, child) {
   return h('div', { class: '-row' }, [
     key && h('span', { class: '-key' }, key),
@@ -33,7 +48,7 @@ function Type (key, path, value) {
   var type = typeof value
   return type === 'object'
     ? type ? Tree(key, path, value) : Row(key, h('span', { class: '-null' }))
-    : Row(key, h('span', { class: '-' + type }, value + ''))
+    : Row(key, h('span', { class: '-' + type }, indent(value + '')))
 }
 
 function Arr (path, value) {
