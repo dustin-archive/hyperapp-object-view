@@ -23,7 +23,7 @@ $base0f: #ab7967;
   padding: 2ch;
   color: $base05;
   font: 12px/1.25em monospace;
-  white-space: nowrap;
+  white-space: pre;
   background: $base00;
   overflow: scroll;
   user-select: none;
@@ -89,7 +89,8 @@ $base0f: #ab7967;
 
   .-function {
     &::before {
-      content: 'ƒ';
+      color: $base0e;
+      content: 'ƒ ';
     }
   }
 
