@@ -7,14 +7,18 @@ function h (nodeName, attributes, children) {
   }
 }
 
-function Row (key, child) {
-  return h('div', { class: '-row' }, [
+function Pair (key, child) {
+  return [
     key && h('span', { class: '-key' }, [key]),
     child
-  ])
+  ]
 }
 
-function Tree (key, path, child) {
+function Row (key, child) {
+  return h('div', { class: '-row' }, Pair(key, child))
+}
+
+function Tree (key, child, path) {
   return function (state, actions) {
     return h('div', {
       class: state.ObjectView[path] ? '-row -tree' : '-row -tree -close',
@@ -22,10 +26,7 @@ function Tree (key, path, child) {
         e.stopPropagation()
         actions.ObjectView.toggle(path)
       }
-    }, [
-      key && h('span', { class: '-key' }, [key]),
-      child
-    ])
+    }, Pair(key, child))
   }
 }
 
@@ -34,12 +35,12 @@ function Type (path, value, key) {
     case 'boolean':
       return Row(key, h('span', { class: '-boolean' }, [value + '']))
     case 'function':
-      return Tree(key, path, Fn(path, value))
+      return Tree(key, Fn(path, value), path)
     case 'number':
       return Row(key, h('span', { class: '-number' }, [value]))
     case 'object':
       return value
-        ? Tree(key, path, Both(path, value))
+        ? Tree(key, Both(path, value), path)
         : Row(key, h('span', { class: '-null' }, []))
     case 'string':
       return Row(key, h('span', { class: '-string' }, [value]))
