@@ -49,6 +49,16 @@ $base0f: #ab7967;
       }
     }
 
+    .-function {
+      &::after {
+        content: '{ ... }';
+      }
+
+      span {
+        display: none;
+      }
+    }
+
     .-object {
       &::after {
         content: ' ... }';
