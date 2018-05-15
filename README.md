@@ -1,7 +1,7 @@
 
 # hyperapp-object-view
 
-> A Hyperapp component that renders your app's state with syntax highlighting.
+> A Hyperapp library that renders objects with syntax highlighting.
 
 ![screenshot](screenshot.png)
 

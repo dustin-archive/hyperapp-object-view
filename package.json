@@ -1,6 +1,6 @@
 {
   "name": "@whaaaley/hyperapp-object-view",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A Hyperapp component that renders your app's state with syntax highlighting.",
   "author": "Dustin Dowell <dustindowell2@gmail.com>",
   "license": "MIT",
