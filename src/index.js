@@ -76,7 +76,8 @@ function Both (path, value) {
 
 function view (path, value) {
   return h('div', { class: '_object-view' }, [
-    Type(path, value, h('span', { class: '-key' }, [path]))
+    h('span', { class: '-key' }, [path]),
+    Both(path, value)
   ])
 }
 
