@@ -8,7 +8,7 @@ function h (nodeName, attributes, children) {
 }
 
 function Row (key, child) {
-  return h('div', { class: '-row' }, [
+  return h('div', {}, [
     key && h('span', { class: '-key' }, [key]),
     child
   ])
@@ -17,7 +17,7 @@ function Row (key, child) {
 function Tree (key, child, path) {
   return function (state, actions) {
     return h('div', {
-      class: state.ObjectView[path] ? '-row -tree' : '-row -tree -close',
+      class: state.ObjectView[path] ? '-tree' : '-tree -close',
       onclick: function (e) {
         e.stopPropagation()
         actions.ObjectView.toggle(path)

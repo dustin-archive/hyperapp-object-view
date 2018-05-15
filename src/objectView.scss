@@ -28,7 +28,7 @@ $base0f: #ab7967;
   overflow: scroll;
   user-select: none;
 
-  .-row {
+  div {
     padding: 0 0 0 2ch;
 
     &:not(:last-of-type) {
@@ -44,7 +44,7 @@ $base0f: #ab7967;
         content: ' ... ]';
       }
 
-      .-row {
+      div {
         display: none;
       }
     }
@@ -64,7 +64,7 @@ $base0f: #ab7967;
         content: ' ... }';
       }
 
-      .-row {
+      div {
         display: none;
       }
     }
