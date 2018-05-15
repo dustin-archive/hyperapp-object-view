@@ -31,7 +31,7 @@ function Fn (path, value) {
   for (i = 1; i < lines.length; i++) {
     result += '\n' + lines[i].slice(least)
   }
-  return h('span', { class: '-function' }, h('span', {}, [result]))
+  return h('span', { class: '-function' }, [h('span', {}, [result])])
 }
 
 function Type (path, value, key) {
