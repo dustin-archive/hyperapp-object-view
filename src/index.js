@@ -78,7 +78,7 @@ function Fn (path, value) {
 
 function view (path, value) {
   return h('div', { class: '_object-view' }, [
-    Tree(path, Both(path, value), h('span', { class: '-key' }, [path]))
+    Type(path, value, h('span', { class: '-key' }, [path]))
   ])
 }
 
