@@ -7,13 +7,6 @@ function h (nodeName, attributes, children) {
   }
 }
 
-function Row (key, child) {
-  return h('div', {}, [
-    key && h('span', { class: '-key' }, [key]),
-    child
-  ])
-}
-
 function Tree (key, child, path) {
   return function (state, actions) {
     return h('div', {
@@ -22,29 +15,26 @@ function Tree (key, child, path) {
         e.stopPropagation()
         actions.ObjectView.toggle(path)
       }
-    }, [
-      key && h('span', { class: '-key' }, [key]),
-      child
-    ])
+    }, [key, child])
   }
 }
 
 function Type (path, value, key) {
   switch (typeof value) {
     case 'boolean':
-      return Row(key, h('span', { class: '-boolean' }, [value + '']))
+      return h('div', {}, [key, h('span', { class: '-boolean' }, [value + ''])])
     case 'function':
       return Tree(key, Fn(path, value), path)
     case 'number':
-      return Row(key, h('span', { class: '-number' }, [value]))
+      return h('div', {}, [key, h('span', { class: '-number' }, [value])])
     case 'object':
       return value
         ? Tree(key, Both(path, value), path)
-        : Row(key, h('span', { class: '-null' }, []))
+        : h('div', {}, [key, h('span', { class: '-null' }, [])])
     case 'string':
-      return Row(key, h('span', { class: '-string' }, [value]))
+      return h('div', {}, [key, h('span', { class: '-string' }, [value])])
     case 'undefined':
-      return Row(key, h('span', { class: '-undefined' }, []))
+      return h('div', {}, [key, h('span', { class: '-undefined' }, [])])
   }
 }
 
@@ -60,7 +50,11 @@ function Both (path, value) {
   var keys = Object.keys(value)
   for (; i < keys.length; i++) {
     var key = keys[i]
-    result[i] = Type(path + '.' + key, value[key], key)
+    result[i] = Type(
+      path + '.' + key,
+      value[key],
+      h('span', { class: '-key' }, [key])
+    )
   }
   return h('span', { class: '-object' }, result)
 }
@@ -84,7 +78,7 @@ function Fn (path, value) {
 
 function view (path, value) {
   return h('div', { class: '_object-view' }, [
-    Row('state', Both(path, value))
+    Tree(h('span', { class: '-key' }, [path]), Both(path, value), path)
   ])
 }
 
