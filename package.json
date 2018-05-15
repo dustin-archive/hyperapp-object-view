@@ -1,7 +1,7 @@
 {
   "name": "@whaaaley/hyperapp-object-view",
   "version": "0.0.6",
-  "description": "A Hyperapp component that renders your app's state with syntax highlighting.",
+  "description": "A Hyperapp library that renders objects with syntax highlighting.",
   "author": "Dustin Dowell <dustindowell2@gmail.com>",
   "license": "MIT",
   "main": "dist/index.js",
@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "rm -rf dist && mkdir dist",
     "sass": "node-sass src/objectView.scss -o dist --source-map true --source-map-contents",
-    "cleancss": "cleancss dist/objectView.css -o dist/objectView.css --source-map --source-map-inline-sources",
+    "cleancss": "cleancss -O2 dist/objectView.css -o dist/objectView.css --source-map --source-map-inline-sources",
     "rollup": "rollup src/index.js -o dist/objectView.js -f umd -n objectView -m",
     "uglify": "uglifyjs dist/objectView.js -o dist/objectView.js -c -m --source-map content='dist/objectView.js.map',url='objectView.js.map'",
     "gzip": "gzip -k -n -9  dist/objectView.css dist/objectView.js",
