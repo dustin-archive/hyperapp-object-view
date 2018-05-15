@@ -12,7 +12,7 @@
     "cleancss": "cleancss dist/objectView.css -o dist/objectView.css --source-map --source-map-inline-sources",
     "rollup": "rollup src/index.js -o dist/objectView.js -f umd -n objectView -m",
     "uglify": "uglifyjs dist/objectView.js -o dist/objectView.js -c -m --source-map content='dist/objectView.js.map',url='objectView.js.map'",
-    "gzip": "gzip -k dist/objectView.css dist/objectView.js",
+    "gzip": "gzip -k -n -9  dist/objectView.css dist/objectView.js",
     "build": "npm run clean && npm run sass && npm run cleancss && npm run rollup && npm run uglify && npm run gzip"
   },
   "repository": {
