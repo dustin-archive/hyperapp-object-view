@@ -19,6 +19,21 @@ function Tree (path, child, key) {
   }
 }
 
+function Fn (path, value) {
+  var lines = (value + '').split('\n')
+  var least = Infinity
+  var result = lines[0].trim()
+  for (var i = 1; i < lines.length; i++) {
+    var space = lines[i].match(/^\s+/)
+    var length = space ? space[0].length : Infinity
+    length < least && (least = length)
+  }
+  for (i = 1; i < lines.length; i++) {
+    result += '\n' + lines[i].slice(least)
+  }
+  return h('span', { class: '-function' }, h('span', {}, [result]))
+}
+
 function Type (path, value, key) {
   switch (typeof value) {
     case 'boolean':
@@ -57,23 +72,6 @@ function Both (path, value) {
     )
   }
   return h('span', { class: '-object' }, result)
-}
-
-function Fn (path, value) {
-  var lines = (value + '').split('\n')
-  var least = Infinity
-  var result = lines[0].trim()
-  for (var i = 1; i < lines.length; i++) {
-    var space = lines[i].match(/^\s+/)
-    var length = space ? space[0].length : Infinity
-    length < least && (least = length)
-  }
-  for (i = 1; i < lines.length; i++) {
-    result += '\n' + lines[i].slice(least)
-  }
-  return h('span', { class: '-function' }, [
-    h('span', {}, [result])
-  ])
 }
 
 function view (path, value) {
